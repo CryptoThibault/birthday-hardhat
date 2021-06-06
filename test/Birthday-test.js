@@ -26,6 +26,7 @@ describe('Birthday', async function () {
     });
     it('Should change balances of user and contract', async function () {
       // expect(GIVE).to.changeEtherBalances([bob, birthday], [-GIVE_VALUE, GIVE_VALUE]);
+      expect(await birthday.balance()).to.equal(GIVE_VALUE);
     });
     it('Should emit events Gave', async function () {
       expect(GIVE).to.emit(birthday, 'Gave').withArgs(bob.address, GIVE_VALUE);
@@ -50,7 +51,8 @@ describe('Birthday', async function () {
       CLAIM = await birthday.connect(alice).claim();
     });
     it('Should change balances of contract and star', async function () {
-      // expect(CLAIM).changeEtherBalances([birthday, alice], [-GIVE_VALUE, GIVE_VALUE]);
+      // expect(CLAIM).to.changeEtherBalances([birthday, alice], [-GIVE_VALUE, GIVE_VALUE]);
+      expect(await birthday.balance()).to.equal(0);
     });
     it('Should emit events Claimed', async function () {
       expect(CLAIM).to.emit(birthday, 'Claimed').withArgs(alice.address, GIVE_VALUE);
