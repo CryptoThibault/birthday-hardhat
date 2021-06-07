@@ -4,7 +4,7 @@ const { ethers } = require('hardhat');
 describe('Birthday', async function () {
   let BIRTHDAY, birthday, owner, alice, bob;
   const TIME = 3600 * 24 * 7;
-  const GIVE_VALUE = ethers.utils.parseEther('0.01');
+  const GIVE_VALUE = ethers.utils.parseEther('0.000001');
   beforeEach(async function () {
     ;[owner, alice, bob] = await ethers.getSigners();
     BIRTHDAY = await ethers.getContractFactory('Birthday');
@@ -25,7 +25,7 @@ describe('Birthday', async function () {
       GIVE = await birthday.connect(bob).give({ value: GIVE_VALUE });
     });
     it('Should change balances of user and contract', async function () {
-      // expect(GIVE).to.changeEtherBalances([bob, birthday], [-GIVE_VALUE, GIVE_VALUE]);
+      expect(GIVE).to.changeEtherBalances([bob, birthday], [-GIVE_VALUE, GIVE_VALUE]);
       expect(await birthday.balance()).to.equal(GIVE_VALUE);
     });
     it('Should emit events Gave', async function () {
@@ -51,7 +51,7 @@ describe('Birthday', async function () {
       CLAIM = await birthday.connect(alice).claim();
     });
     it('Should change balances of contract and star', async function () {
-      // expect(CLAIM).to.changeEtherBalances([birthday, alice], [-GIVE_VALUE, GIVE_VALUE]);
+      expect(CLAIM).to.changeEtherBalances([birthday, alice], [-GIVE_VALUE, GIVE_VALUE]);
       expect(await birthday.balance()).to.equal(0);
     });
     it('Should emit events Claimed', async function () {
